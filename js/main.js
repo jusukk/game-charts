@@ -268,6 +268,8 @@ function createCharts() {
         createChartAverage();
     } 
 }
+// If resize, reset charts
+window.addEventListener("resize", createCharts);
 
 // GAME
 // -------------------------------------------------------------------------------------------------------

@@ -1,12 +1,6 @@
 $maxWidth: 1024px;
 $minWidth: 320px;
-
-$transition: all .4s ease-out;
-
-$raspberry: #e91756;
 $space: #0d172c;
-
-$highlight: $raspberry;
 
 * {
     margin: 0;
@@ -42,16 +36,6 @@ p {
     padding: 0 20px;
 }
 
-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 30px 0 0 50px;
-    a:first-of-type {
-        margin: 0 30px 0 0;
-    }
-}
-
 .gameBox {
     padding: 20px 0;
 }
@@ -80,9 +64,6 @@ header {
 
 .textBox {
     padding: 50px 10px;
-    a:first-of-type {
-        margin-left: 0px;
-    }  
     h3:nth-of-type(2) {
         margin-top: 50px;
     }    

@@ -346,6 +346,7 @@ function restart() {
     player.y = H - player.radius - 1;
     obstacleDown.x = W + obstacleDown.width*2;
     obstacleDown.dx = W / 165;
+    particles = [];
     score = 0;
     gameState = 1;
     // Reset trigger
@@ -458,6 +459,35 @@ class Obstacle {
     }
 }
 
+var particles = [];
+class Particle {
+    constructor () {
+        this.life = true;
+        this.radius = player.radius;
+        this.vRadius = 0;
+        this.x = player.x;
+        this.y = player.y;
+        this.vy = getRandom(-1, 1);
+        this.vx = getRandom(-3, -2.5);
+        this.color = playerColor;
+    }
+    move() { 
+        this.x += this.vx;
+        this.vRadius = 1;
+        if (this.radius > 1) this.radius -= this.vRadius;
+        if (this.radius <= 1) this.life = false;       
+    }
+    draw() {
+        ctx.shadowColor = playerColor;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();    
+        ctx.arc( this.x, this.y, this.radius, 0, 2 * Math.PI );
+        ctx.closePath();
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
 let player = new Player();
 let startHeight = getRandom(40,140);
 let obstacleDown = new Obstacle(true, startHeight, H - startHeight);
@@ -482,6 +512,20 @@ function updateObstacles(down, top) {
     down.draw();
 }
 
+function updateParticles() {
+    // Move
+    for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].move();
+        // If particle is dead, remove it        
+        if( !particles[i].life) particles.splice( i, 1 );
+    }
+    if (particles.length < 20) particles.push(new Particle());
+    // Draw 
+    for (let i = particles.length - 1; i >= 0; i--) {   
+        particles[i].draw();
+    }     
+}
+
 // Render canvas loop
 function render() {
     ctx.clearRect(0, 0, W, H);
@@ -500,6 +544,7 @@ function render() {
         draw();     
         player.move();
         player.draw();
+        updateParticles();
         updateObstacles(obstacleDown, obstacleTop);
         updateScore();
     } 
